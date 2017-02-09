@@ -203,8 +203,9 @@ debuginfo_eip(uintptr_t addr, struct Eipdebuginfo *info)
 	//	There's a particular stabs type used for line numbers.
 	//	Look at the STABS documentation and <inc/stab.h> to find
 	//	which one.
-	// Your code here.
-
+	
+	stab_binsearch(stabs, &lline, &rline, N_SLINE, addr);
+    info->eip_line=stabs[lline].n_desc;
 
 	// Search backwards from the line number for the relevant filename
 	// stab.
@@ -226,6 +227,6 @@ debuginfo_eip(uintptr_t addr, struct Eipdebuginfo *info)
 		     lline < rfun && stabs[lline].n_type == N_PSYM;
 		     lline++)
 			info->eip_fn_narg++;
-
+	cprintf("args : %d\n",info->eip_fn_narg);
 	return 0;
 }
