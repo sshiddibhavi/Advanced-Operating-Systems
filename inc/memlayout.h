@@ -40,18 +40,18 @@
  *                     |     CPU1's Kernel Stack      | RW/--  KSTKSIZE   |
  *                     | - - - - - - - - - - - - - - -|                 PTSIZE
  *                     |      Invalid Memory (*)      | --/--  KSTKGAP    |
- *                     +------------------------------+                   |			// User not allowed to read or write
+ *                     +------------------------------+                   |
  *                     :              .               :                   |
  *                     :              .               :                   |
  *    MMIOLIM ------>  +------------------------------+ 0xefc00000      --+
  *                     |       Memory-mapped I/O      | RW/--  PTSIZE
- * ULIM, MMIOBASE -->  +------------------------------+ 0xef800000------------3.74GB
+ * ULIM, MMIOBASE -->  +------------------------------+ 0xef800000
  *                     |  Cur. Page Table (User R-)   | R-/R-  PTSIZE
  *    UVPT      ---->  +------------------------------+ 0xef400000
- *                     |          RO PAGES            | R-/R-  PTSIZE		// User Allowed to read but not write
+ *                     |          RO PAGES            | R-/R-  PTSIZE
  *    UPAGES    ---->  +------------------------------+ 0xef000000
  *                     |           RO ENVS            | R-/R-  PTSIZE
- * UTOP,UENVS ------>  +------------------------------+ 0xeec00000------------3.73GB
+ * UTOP,UENVS ------>  +------------------------------+ 0xeec00000
  * UXSTACKTOP -/       |     User Exception Stack     | RW/RW  PGSIZE
  *                     +------------------------------+ 0xeebff000
  *                     |       Empty Memory (*)       | --/--  PGSIZE
