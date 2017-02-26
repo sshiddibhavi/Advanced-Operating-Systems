@@ -1,0 +1,37 @@
++ ld obj/kern/kernel
++ mk obj/kern/kernel.img
+
+(process:18026): GLib-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./glib/gmem.c:483: custom memory allocation vtable not supported
+
+(process:18028): GLib-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./glib/gmem.c:483: custom memory allocation vtable not supported
+6828 decimal is XXX octal!
+Physical memory: 131072K available, base = 640K, extended = 130432K
+check_page_free_list() succeeded!
+check_page_alloc() succeeded!
+check_page() succeeded!
+check_kern_pgdir() succeeded!
+check_page_free_list() succeeded!
+check_page_installed_pgdir() succeeded!
+SMP: CPU 0 found 1 CPU(s)
+enabled interrupts: 1 2
+[00000000] new env 00001000
+TRAP frame at 0xf7ffffec from CPU 0
+  edi  0x00000000
+  esi  0x00000000
+  ebp  0x00000000
+  oesp 0xf800000c
+  ebx  0xf022b094
+  edx  0x00000000
+  ecx  0x00000000
+  eax  0x00000000
+  es   0x----0000
+  ds   0x----0000
+  trap 0x00000000 Divide error
+  err  0x00000000
+  eip  0x00000000
+  cs   0x----0000
+  flag 0x00000000
+kernel panic on CPU 0 at kern/trap.c:353: page fault kernel mode
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+qemu: terminating on signal 15 from pid 17930
