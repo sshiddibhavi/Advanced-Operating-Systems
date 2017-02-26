@@ -297,11 +297,10 @@ mem_init_mp(void)
 	//
 	// LAB 4: Your code here:
 	
-		uint32_t i, currstack;
+	uint32_t i, currstack;
 	for (i=0 ; i < NCPU; i++){
 		currstack = KSTACKTOP - i*(KSTKSIZE + KSTKGAP) - KSTKSIZE;
-		boot_map_region(kern_pgdir, currstack, KSTKSIZE, 
-				PADDR(percpu_kstacks[i]), PTE_W|PTE_P);
+		boot_map_region(kern_pgdir, currstack, KSTKSIZE, PADDR(percpu_kstacks[i]), PTE_W|PTE_P);
 	}
 
 }
