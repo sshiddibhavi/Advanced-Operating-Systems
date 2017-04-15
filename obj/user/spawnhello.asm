@@ -4385,10 +4385,10 @@ copy_shared_pages(envid_t child)
   80199a:	8b 14 85 00 00 40 ef 	mov    -0x10c00000(,%eax,4),%edx
   8019a1:	f6 c6 04             	test   $0x4,%dh
   8019a4:	74 1d                	je     8019c3 <spawn+0x462>
-			sys_page_map(0, (void*)i,child, (void*)i,(uvpt[PGNUM(i)] & PTE_SYSCALL));
+			sys_page_map(0, (void*)i,child, (void*)i,(uvpt[PGNUM(i)] | PTE_SYSCALL));
   8019a6:	8b 04 85 00 00 40 ef 	mov    -0x10c00000(,%eax,4),%eax
   8019ad:	83 ec 0c             	sub    $0xc,%esp
-  8019b0:	25 07 0e 00 00       	and    $0xe07,%eax
+  8019b0:	0d 07 0e 00 00       	or     $0xe07,%eax
   8019b5:	50                   	push   %eax
   8019b6:	53                   	push   %ebx
   8019b7:	56                   	push   %esi

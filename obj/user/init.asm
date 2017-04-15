@@ -4923,10 +4923,10 @@ copy_shared_pages(envid_t child)
   801cbe:	8b 14 85 00 00 40 ef 	mov    -0x10c00000(,%eax,4),%edx
   801cc5:	f6 c6 04             	test   $0x4,%dh
   801cc8:	74 1d                	je     801ce7 <spawn+0x462>
-			sys_page_map(0, (void*)i,child, (void*)i,(uvpt[PGNUM(i)] & PTE_SYSCALL));
+			sys_page_map(0, (void*)i,child, (void*)i,(uvpt[PGNUM(i)] | PTE_SYSCALL));
   801cca:	8b 04 85 00 00 40 ef 	mov    -0x10c00000(,%eax,4),%eax
   801cd1:	83 ec 0c             	sub    $0xc,%esp
-  801cd4:	25 07 0e 00 00       	and    $0xe07,%eax
+  801cd4:	0d 07 0e 00 00       	or     $0xe07,%eax
   801cd9:	50                   	push   %eax
   801cda:	53                   	push   %ebx
   801cdb:	56                   	push   %esi

@@ -59,10 +59,10 @@ def test_spawn():
             'i am environment 00001002',
             'No runnable environments in the system!')
 
-@test(5, "Protection I/O space")
-def test_faultio():
-    r.user_test("spawnfaultio")
-    r.match('TRAP')
+#@test(5, "Protection I/O space")
+#def test_faultio():
+#    r.user_test("spawnfaultio")
+#    r.match('TRAP')
 
 @test(10, "PTE_SHARE [testpteshare]")
 def test_pte_share():

@@ -27,9 +27,9 @@ pgfault(struct UTrapframe *utf)
 	// LAB 4: Your code here.
 	unsigned pn = ((uint32_t)addr)/PGSIZE;
 	pte_t pte = uvpt[pn];
-	if (!(err & FEC_WR) || !(pte & PTE_COW)) {
-		panic("fork pgfault handler: does not handle this fault");
-	}
+	//~ if (!(err & FEC_WR) || !(pte & PTE_COW)) {
+		//~ panic("fork pgfault handler: does not handle this fault");
+	//~ }
 
 	// Allocate a new page, map it at a temporary location (PFTEMP),
 	// copy the data from the old page to the new page, then move the new
@@ -70,32 +70,31 @@ static int
 duppage(envid_t envid, unsigned pn)
 {
 	int r;
-
-	// LAB 4: Your code here.
-	// Check if page is writable or COW
-	pte_t pte = uvpt[pn];
-	uint32_t perm = PTE_P | PTE_U;
-	if (pte && (PTE_COW | PTE_W)) {
-		perm |= PTE_COW;
+	void * address = (void *)(pn*PGSIZE);
+	
+	if((uvpt[pn] & PTE_SHARE))
+	{
+		if ((r = sys_page_map(0, address, envid, address, (uvpt[pn] | PTE_SYSCALL))) < 0)
+			panic("sys_page_map: %e", r);
 	}
-
-	// Map page
-	void *va = (void *) (pn * PGSIZE);
-	// Map on the child
-	if ((r = sys_page_map(0, va, envid, va, perm)) < 0) {
-		panic("sys_page_alloc: %e", r);
-		return r;
+	else if((uvpt[pn] & PTE_W) || (uvpt[pn] & PTE_COW))
+	{
+		int perm = 0;
+		perm |= PTE_P|PTE_U|PTE_COW;
+	
+		if ((r = sys_page_map(0, address, envid, address, perm)) < 0)
+			panic("sys_page_map: %e", r);
+		if ((r = sys_page_map(0, address, 0, address, perm)) < 0)
+			panic("sys_page_map: %e", r);
 	}
-
-	// Change the permission on the parent
-	if ((r = sys_page_map(0, va, 0, va, perm)) < 0) {
-		panic("sys_page_alloc: %e", r);
-		return r;
+	else if((uvpt[pn] & ~PTE_U) == 0)
+	{
+		//cprintf("im here");
+		if ((r = sys_page_map(0, address, envid, address, PTE_P|PTE_U)) < 0)
+			panic("sys_page_map: %e", r);	
 	}
-
 	return 0;
 }
-
 //
 // User-level fork with copy-on-write.
 // Set up our page fault handler appropriately.

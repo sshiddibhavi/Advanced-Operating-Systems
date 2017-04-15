@@ -305,9 +305,29 @@ copy_shared_pages(envid_t child)
 	uintptr_t i;
 	for (i = 0; i < USTACKTOP; i += PGSIZE){
 		if ((uvpd[PDX(i)] & PTE_P) && (uvpt[PGNUM(i)] & PTE_P) && (uvpt[PGNUM(i)] & PTE_U) && (uvpt[PGNUM(i)] & PTE_SHARE)){
-			sys_page_map(0, (void*)i,child, (void*)i,(uvpt[PGNUM(i)] & PTE_SYSCALL));
+			sys_page_map(0, (void*)i,child, (void*)i,(uvpt[PGNUM(i)] | PTE_SYSCALL));
 		}
 	}
 	return 0;
 }
+//~ copy_shared_pages(envid_t child)
+//~ {
+	//~ // LAB 5: Your code here.
+	//~ uint32_t pn;
+	//~ for (pn =  PGNUM(UTEXT); pn < PGNUM(UXSTACKTOP); pn += 1)
+	//~ {
+		//~ if(!(uvpd[PDX(pn<<PGSHIFT)] & PTE_P)) continue;
+		//~ if(!(uvpt[pn] & PTE_P)) continue;
+		
+		//~ int r;
 
+		//~ if((uvpt[pn] & PTE_SHARE))
+		//~ {
+			//~ if ((r = sys_page_map(0, address, child, address, (uvpt[pn] | PTE_SYSCALL)) < 0)
+				//~ panic("sys_page_map: %e", r);
+		//~ }
+		//~ //i++;
+		//~ //cprintf("i=%d",i);
+	//~ }
+	//~ return 0;
+//~ }
