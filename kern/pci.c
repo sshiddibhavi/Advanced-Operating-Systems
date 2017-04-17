@@ -31,6 +31,7 @@ struct pci_driver pci_attach_class[] = {
 // pci_attach_vendor matches the vendor ID and device ID of a PCI device. key1
 // and key2 should be the vendor ID and device ID respectively
 struct pci_driver pci_attach_vendor[] = {
+	{ 0x8086, 0x100e, e1000_attach},
 	{ 0, 0, 0 },
 };
 
@@ -112,7 +113,7 @@ static void
 pci_print_func(struct pci_func *f)
 {
 	const char *class = pci_class[0];
-	if (PCI_CLASS(f->dev_class) < ARRAY_SIZE(pci_class))
+	if (PCI_CLASS(f->dev_class) < sizeof(pci_class) / sizeof(pci_class[0]))
 		class = pci_class[PCI_CLASS(f->dev_class)];
 
 	cprintf("PCI: %02x:%02x.%d: %04x:%04x: class: %x.%x (%s) irq: %d\n",
